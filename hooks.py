@@ -124,10 +124,15 @@ def _cards_markdown(cards: list[dict[str, Any]]) -> str:
         output.extend(
             [
                 '<div class="card lab-card" markdown>',
-                f'<img class="lab-card__image" src="{esc(card["image"])}" alt="{esc(card["title"])}" />',
                 f'<h2>{esc(card["title"])}</h2>',
+                '<div class="lab-card__body">',
+                f'<img class="lab-card__image" src="{esc(card["image"])}" alt="{esc(card["title"])}" />',
+                '<div class="lab-card__content">',
                 f'<p>{esc(card["description"])}</p>',
-                '<div class="lab-card__metadata">',
+                f'<p><a class="md-button" href="{esc(card["link"])}">Visit</a></p>',
+                '</div>',
+                '</div>',
+                '<div class="lab-card__footer">',
                 '<div class="lab-card__meta-row">',
                 f'<span><strong>Authors:</strong> {authors}</span>',
                 f'<span><strong>Contact:</strong> <a href="mailto:{esc(card["contact"])}">{esc(card["contact"])}</a></span>',
@@ -143,7 +148,6 @@ def _cards_markdown(cards: list[dict[str, Any]]) -> str:
                 else '',
                 '</div>',
                 '</div>',
-                f'<p><a class="md-button" href="{esc(card["link"])}">Visit</a></p>',
                 '</div>',
             ]
         )
