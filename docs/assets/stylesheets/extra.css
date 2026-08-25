@@ -69,7 +69,7 @@
 .labs-announcement__logos span { font-size: 1.5rem; }
 .labs-grid { align-items: stretch; }
 .lab-card { display: flex; flex-direction: column; }
-.lab-card__image { display: block; height: 105px; margin: 0 auto; object-fit: cover; width: 210px; }
+.lab-card__image { display: block; height: 225px; margin: 0 auto; object-fit: cover; width: 450px; }
 .lab-card__metadata { font-size: 0.85rem; margin-top: auto; }
 .lab-card__meta-row { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; }
 .lab-card__meta-row > span { min-width: 0; }

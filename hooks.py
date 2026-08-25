@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import html
 import json
+import re
+from datetime import date
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Any
 
@@ -15,6 +17,7 @@ DOCS = (ROOT / "docs").resolve()
 CATALOGUE = ROOT / "labs-content.json"
 REQUIRED_FIELDS = {
     "id",
+    "date_added",
     "title",
     "description",
     "link",
@@ -66,9 +69,15 @@ def _load_cards() -> list[dict[str, Any]]:
             raise _error(index, f"missing required field(s): {', '.join(sorted(missing))}")
         if not isinstance(record["id"], int) or isinstance(record["id"], bool):
             raise _error(index, "'id' must be an integer")
-        for field in ("title", "description", "link", "contact"):
+        for field in ("title", "description", "link", "contact", "date_added"):
             if not isinstance(record[field], str):
                 raise _error(index, f"'{field}' must be a string")
+        try:
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", record["date_added"]):
+                raise ValueError
+            date.fromisoformat(record["date_added"])
+        except ValueError as exc:
+            raise _error(index, "'date_added' must be an ISO date (YYYY-MM-DD)") from exc
         if (
             not isinstance(record["authors"], list)
             or not record["authors"]
@@ -97,6 +106,7 @@ def _cards_markdown(cards: list[dict[str, Any]]) -> str:
                 f'<p>{esc(card["description"])}</p>',
                 '<div class="lab-card__metadata">',
                 '<div class="lab-card__meta-row">',
+                f'<span><strong>Date added:</strong> {esc(card["date_added"])}</span>',
                 f'<span><strong>Authors:</strong> {authors}</span>',
                 f'<span><strong>Contact:</strong> <a href="mailto:{esc(card["contact"])}">{esc(card["contact"])}</a></span>',
                 '</div>',
