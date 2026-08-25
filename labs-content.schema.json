@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "labs-content.schema.json",
+  "title": "3DBAG Labs card catalogue",
+  "description": "A collection of cards displayed on the 3DBAG Labs page.",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/card"
+  },
+  "$defs": {
+    "card": {
+      "title": "3DBAG Labs card",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "date_added",
+        "title",
+        "description",
+        "link",
+        "image",
+        "authors",
+        "contact",
+        "in_3dbag",
+        "archived"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Numeric identifier for the card."
+        },
+        "date_added": {
+          "type": "string",
+          "format": "date",
+          "description": "Date on which the card was added, in YYYY-MM-DD format."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Short title displayed as the card heading."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Short card summary of no more than 140 whitespace-separated words.",
+          "$comment": "The 140-word limit is enforced by hooks.py because standard JSON Schema has no portable maxWords keyword."
+        },
+        "link": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https?://",
+          "description": "HTTP or HTTPS URL opened by the card's Visit button."
+        },
+        "image": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Relative path to the card image under docs/. The card displays it at approximately 600px wide by 350px high."
+        },
+        "authors": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "One or more names of the people or teams responsible for the card."
+        },
+        "contact": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address shown as the card's contact link."
+        },
+        "in_3dbag": {
+          "type": "boolean",
+          "description": "Whether the experiment or content is included in 3DBAG."
+        },
+        "archived": {
+          "type": "boolean",
+          "description": "Whether the card represents archived content."
+        }
+      }
+    }
+  }
+}

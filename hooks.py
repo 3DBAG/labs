@@ -4,29 +4,18 @@ from __future__ import annotations
 
 import html
 import json
-import re
-from datetime import date
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Any
 
+from PIL import Image, UnidentifiedImageError
+from jsonschema import Draft202012Validator, FormatChecker
 from properdocs.exceptions import ProperDocsException
 
 
 ROOT = Path(__file__).resolve().parent
 DOCS = (ROOT / "docs").resolve()
 CATALOGUE = ROOT / "labs-content.json"
-REQUIRED_FIELDS = {
-    "id",
-    "date_added",
-    "title",
-    "description",
-    "link",
-    "image",
-    "authors",
-    "contact",
-    "in_3dbag",
-    "archived",
-}
+SCHEMA = ROOT / "labs-content.schema.json"
 
 
 def _error(index: int, message: str) -> ProperDocsException:
@@ -36,8 +25,9 @@ def _error(index: int, message: str) -> ProperDocsException:
 def _image_path(value: Any, index: int) -> str:
     if not isinstance(value, str) or not value.strip():
         raise _error(index, "'image' must be a non-empty string")
-    posix = PurePosixPath(value)
-    windows = PureWindowsPath(value)
+    normalized = value.replace("\\", "/")
+    posix = PurePosixPath(normalized)
+    windows = PureWindowsPath(normalized)
     if posix.is_absolute() or windows.is_absolute() or windows.drive:
         raise _error(index, "'image' must be a relative path inside docs/")
     if any(part == ".." for part in (*posix.parts, *windows.parts)):
@@ -49,7 +39,46 @@ def _image_path(value: Any, index: int) -> str:
         raise _error(index, "'image' must resolve inside docs/") from exc
     if not candidate.is_file():
         raise _error(index, f"image does not exist: {value}")
-    return value.replace("\\", "/")
+    return normalized
+
+
+def _validate_image_dimensions(path: str, index: int) -> None:
+    image_path = DOCS / Path(*PurePosixPath(path).parts)
+    try:
+        with Image.open(image_path) as image:
+            width, height = image.size
+    except (OSError, UnidentifiedImageError) as exc:
+        raise _error(index, f"image '{path}' is not a readable image: {exc}") from exc
+    if (width, height) != (600, 350):
+        raise _error(
+            index,
+            f"image '{path}' has dimensions {width}x{height}; expected exactly 600x350 pixels",
+        )
+
+
+def _word_count(value: str) -> int:
+    return len(value.split())
+
+
+def _validate_schema(records: Any) -> None:
+    try:
+        schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ProperDocsException(f"Unable to read labs-content.schema.json: {exc}") from exc
+
+    validator = Draft202012Validator(schema, format_checker=FormatChecker())
+    errors = sorted(validator.iter_errors(records), key=lambda error: list(error.absolute_path))
+    messages = []
+    for error in errors:
+        if error.absolute_path and isinstance(error.absolute_path[0], int):
+            index = error.absolute_path[0] + 1
+            path = ".".join(str(part) for part in list(error.absolute_path)[1:])
+            location = f"'{path}'" if path else "record"
+            messages.append(str(_error(index, f"{location} {error.message}")))
+        else:
+            messages.append(f"labs-content.json: {error.message}")
+    if messages:
+        raise ProperDocsException("\n".join(messages))
 
 
 def _load_cards() -> list[dict[str, Any]]:
@@ -57,39 +86,33 @@ def _load_cards() -> list[dict[str, Any]]:
         records = json.loads(CATALOGUE.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise ProperDocsException(f"Unable to read labs-content.json: {exc}") from exc
-    if not isinstance(records, list):
-        raise ProperDocsException("labs-content.json must contain a JSON array")
+    _validate_schema(records)
 
+    errors = []
+    seen_ids: dict[int, int] = {}
     cards = []
     for index, record in enumerate(records, start=1):
-        if not isinstance(record, dict):
-            raise _error(index, "must be a JSON object")
-        missing = REQUIRED_FIELDS - record.keys()
-        if missing:
-            raise _error(index, f"missing required field(s): {', '.join(sorted(missing))}")
-        if not isinstance(record["id"], int) or isinstance(record["id"], bool):
-            raise _error(index, "'id' must be an integer")
-        for field in ("title", "description", "link", "contact", "date_added"):
-            if not isinstance(record[field], str):
-                raise _error(index, f"'{field}' must be a string")
-        try:
-            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", record["date_added"]):
-                raise ValueError
-            date.fromisoformat(record["date_added"])
-        except ValueError as exc:
-            raise _error(index, "'date_added' must be an ISO date (YYYY-MM-DD)") from exc
-        if (
-            not isinstance(record["authors"], list)
-            or not record["authors"]
-            or any(not isinstance(author, str) for author in record["authors"])
-        ):
-            raise _error(index, "'authors' must be a non-empty list of strings")
-        for field in ("in_3dbag", "archived"):
-            if not isinstance(record[field], bool):
-                raise _error(index, f"'{field}' must be a boolean")
+        record_id = record["id"]
+        if record_id in seen_ids:
+            errors.append(
+                _error(
+                    index,
+                    f"'id' {record_id} duplicates the value from record {seen_ids[record_id]}",
+                )
+            )
+        else:
+            seen_ids[record_id] = index
+        if _word_count(record["description"]) > 140:
+            errors.append(_error(index, "'description' must contain no more than 140 words"))
         card = dict(record)
-        card["image"] = _image_path(record["image"], index)
+        try:
+            card["image"] = _image_path(record["image"], index)
+            _validate_image_dimensions(card["image"], index)
+        except ProperDocsException as exc:
+            errors.append(exc)
         cards.append(card)
+    if errors:
+        raise ProperDocsException("\n".join(str(error) for error in errors))
     return cards
 
 
@@ -106,9 +129,9 @@ def _cards_markdown(cards: list[dict[str, Any]]) -> str:
                 f'<p>{esc(card["description"])}</p>',
                 '<div class="lab-card__metadata">',
                 '<div class="lab-card__meta-row">',
-                f'<span><strong>Date added:</strong> {esc(card["date_added"])}</span>',
                 f'<span><strong>Authors:</strong> {authors}</span>',
                 f'<span><strong>Contact:</strong> <a href="mailto:{esc(card["contact"])}">{esc(card["contact"])}</a></span>',
+                f'<span><strong>Date added:</strong> {esc(card["date_added"])}</span>',
                 '</div>',
                 '<div class="lab-card__status-row">',
                 '<span class="lab-card__badge lab-card__badge--in-3dbag">In 3DBAG</span>'
