@@ -19,6 +19,13 @@
   font-family: Barlow, sans-serif;
 }
 
+.logo-partners {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 @media screen and (min-width: 76.25em) {
   .md-header__inner {
     max-width: 80rem;
@@ -40,13 +47,29 @@
   margin-left: 0.6em;
 }
 
-@media only screen and (max-width: 76.1875em) {
-  .md-header .logo-text, .md-sidebar .logo-text, .md-sidebar .logo3d {
+@media only screen and (max-width: 76.234375em) {
+  .md-header .logo-partners, .md-sidebar .logo-text, .md-sidebar .logo3d {
     display: none;
+  }
+
+  .md-header .md-header__button.md-logo {
+    display: flex;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .md-header .logo-brand {
+    display: inline;
   }
 
   .logo3d {
     margin-left: 1em;
+  }
+}
+
+@media screen and (max-width: 76.234375em) {
+  .md-sidebar--primary[hidden] {
+    display: block !important;
   }
 }
 

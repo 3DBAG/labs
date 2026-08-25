@@ -1,0 +1,18 @@
+{# The page table of contents is generated from the card headings. #}
+<nav class="md-nav md-nav--primary labs-drawer-nav" aria-label="{{ lang.t('nav') }}" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}" title="{{ config.site_name | e }}" class="md-nav__button md-logo" aria-label="{{ config.site_name }}" data-md-component="logo">
+      {% include "partials/logo.html" %}
+    </a>
+    {{ config.site_name }}
+  </label>
+  <ul class="md-nav__list">
+    {% for item in page.toc %}
+      <li class="md-nav__item">
+        <a href="{{ item.url | url }}" class="md-nav__link">
+          <span class="md-ellipsis">{{ item.title }}</span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

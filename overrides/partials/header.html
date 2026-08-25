@@ -12,6 +12,16 @@
     <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}" title="{{ config.site_name | e }}" class="md-header__button md-logo" aria-label="{{ config.site_name }}" data-md-component="logo">
       {% include "partials/logo.html" %}
     </a>
+    {% if config.theme.logo %}
+      <div class="logo-partners" aria-label="Partners">
+        <span class="logo-text" style="color:#ccc; font-weight:300;">by</span>
+        <img class="logo3d" width="28" height="28" src="{{ config.theme.logo | url }}" alt="">
+        <a href="https://3d.bk.tudelft.nl" style="color: #333;" class="logo-text">tudelft3d</a>
+        <span class="logo-text" style="color:#ccc; font-weight:300; margin-left: 0.3em;"> + </span>
+        <img class="logo3d" width="28" height="28" src="{{ config.theme.logo2 | url }}" alt="">
+        <a href="https://3dgi.xyz" style="color: #333;" class="logo-text">3DGI</a>
+      </div>
+    {% endif %}
     <label class="md-header__button md-icon" for="__drawer">
       {% include ".icons/material/menu" ~ ".svg" %}
     </label>
