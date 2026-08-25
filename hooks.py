@@ -95,13 +95,21 @@ def _cards_markdown(cards: list[dict[str, Any]]) -> str:
                 f'<img class="lab-card__image" src="{esc(card["image"])}" alt="{esc(card["title"])}" />',
                 f'<h2>{esc(card["title"])}</h2>',
                 f'<p>{esc(card["description"])}</p>',
-                '<dl class="lab-card__metadata">',
-                f'<dt>Authors</dt><dd>{authors}</dd>',
-                f'<dt>Contact</dt><dd><a href="mailto:{esc(card["contact"])}">{esc(card["contact"])}</a></dd>',
-                f'<dt>In 3DBAG</dt><dd>{esc(card["in_3dbag"])}</dd>',
-                f'<dt>Archived</dt><dd>{esc(card["archived"])}</dd>',
-                '</dl>',
-                f'<p><a class="md-button" href="{esc(card["link"])}">Visit lab</a></p>',
+                '<div class="lab-card__metadata">',
+                '<div class="lab-card__meta-row">',
+                f'<span><strong>Authors:</strong> {authors}</span>',
+                f'<span><strong>Contact:</strong> <a href="mailto:{esc(card["contact"])}">{esc(card["contact"])}</a></span>',
+                '</div>',
+                '<div class="lab-card__status-row">',
+                '<span class="lab-card__badge lab-card__badge--in-3dbag">In 3DBAG</span>'
+                if card["in_3dbag"]
+                else '',
+                '<span class="lab-card__badge lab-card__badge--archived">Archived</span>'
+                if card["archived"]
+                else '',
+                '</div>',
+                '</div>',
+                f'<p><a class="md-button" href="{esc(card["link"])}">Visit</a></p>',
                 '</div>',
             ]
         )

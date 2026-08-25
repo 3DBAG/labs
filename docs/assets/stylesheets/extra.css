@@ -69,10 +69,14 @@
 .labs-announcement__logos span { font-size: 1.5rem; }
 .labs-grid { align-items: stretch; }
 .lab-card { display: flex; flex-direction: column; }
-.lab-card__image { aspect-ratio: 2 / 1; display: block; object-fit: cover; width: 100%; }
+.lab-card__image { display: block; height: 105px; margin: 0 auto; object-fit: cover; width: 210px; }
 .lab-card__metadata { font-size: 0.85rem; margin-top: auto; }
-.lab-card__metadata dd { margin-left: 0; }
-.lab-card__metadata dt { font-weight: 700; margin-top: 0.5rem; }
+.lab-card__meta-row { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; }
+.lab-card__meta-row > span { min-width: 0; }
+.lab-card__status-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem; }
+.lab-card__badge { border: 1px solid; border-radius: 999px; display: inline-block; font-size: 0.75rem; font-weight: 700; line-height: 1.2; padding: 0.2rem 0.55rem; }
+.lab-card__badge--archived { background: #fff4c2; border-color: #b08b00; color: #6f5600; }
+.lab-card__badge--in-3dbag { background: #d9f2dc; border-color: #4f8a5b; color: #2f6138; }
 
 @media screen and (max-width: 600px) {
   .labs-announcement { grid-template-columns: 1fr; padding: 1.25rem; }
