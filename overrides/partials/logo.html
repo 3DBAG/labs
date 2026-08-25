@@ -1,0 +1,13 @@
+{% if config.theme.logo %}
+  <span style="color: #333" class="logo-text">3DBAG</span>
+  <span style="color: #333" class="logo-text logo-text--labs">Labs</span>
+  <span class="logo-text" style="color:#ccc; font-weight:300;">by</span>
+  <img class="logo3d" width="28" height="28" src="{{ config.theme.logo | url }}" alt="logo">
+  <a href="https://3d.bk.tudelft.nl" style="color: #333;" class="logo-text">tudelft3d</a>
+  <span class="logo-text" style="color:#ccc; font-weight:300; margin-left: 0.3em;"> + </span>
+  <img class="logo3d" width="28" height="28" src="{{ config.theme.logo2 | url }}" alt="logo">
+  <a href="https://3dgi.xyz" style="color: #333;" class="logo-text">3DGI</a>
+{% else %}
+  {% set icon = config.theme.icon.logo or "material/library" %}
+  {% include ".icons/" ~ icon ~ ".svg" %}
+{% endif %}

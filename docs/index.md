@@ -1,17 +1,11 @@
-# 3DBAG Labs
+---
+hide:
+  - navigation
+  - toc
+---
 
-<div class="labs-announcement" markdown>
-
-<div class="labs-announcement__logos">
-  <img src="assets/images/branding/tudelft-3d-geoinformation.svg" alt="TU Delft 3D geoinformation" />
-  <span aria-hidden="true">×</span>
-  <img src="assets/images/branding/3dgi.svg" alt="3DGI" />
-</div>
-
-## Share what you build with the 3DBAG
-
-3DBAG Labs is a home for tools, experiments, and applications that make use of the 3D BAG.
-
-</div>
+The _3DBAG Labs_ is a collection of experiments demos for the 3DBAG project.
+They showcase proof of concepts that are not yet ready for production or may never be ready for production, but are interesting to explore.
+The experiments are maintained independently of the 3DBAG project, see the corresponding authors and contact for more information.
 
 <!-- labs-cards -->

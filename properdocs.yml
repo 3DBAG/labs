@@ -1,10 +1,22 @@
 site_name: 3DBAG Labs
-site_description: Tools, experiments, and applications built with the 3DBAG.
+site_description: Experimental content, demos, proof of concepts for the 3DBAG.
 docs_dir: docs
 site_dir: site
 
 theme:
   name: materialx
+  custom_dir: overrides
+  favicon: assets/images/favicon.ico
+  logo: assets/images/logo.svg
+  logo2: assets/images/logo-3dgi.svg
+  font:
+    text: Inter
+    code: Roboto Mono
+  palette:
+    primary: white
+    accent: light-blue
+
+plugins: []
 
 hooks:
   - hooks.py
