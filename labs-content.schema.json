@@ -21,6 +21,7 @@
         "image",
         "authors",
         "contact",
+        "license",
         "in_3dbag",
         "archived"
       ],
@@ -69,6 +70,11 @@
           "type": "string",
           "format": "email",
           "description": "Email address shown as the card's contact link."
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "description": "License under which the card's content is provided."
         },
         "in_3dbag": {
           "type": "boolean",

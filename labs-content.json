@@ -8,6 +8,7 @@
     "image": "assets/images/labs/example-lab.jpg",
     "authors": ["3DBAG team", "Someone Else"],
     "contact": "info@3dbag.nl",
+    "license": "CC-BY 4.0",
     "in_3dbag": true,
     "archived": true
   },
@@ -20,6 +21,7 @@
     "image": "assets/images/labs/example-lab.jpg",
     "authors": ["3DBAG team"],
     "contact": "info@3dbag.nl",
+    "license": "CC-BY 4.0",
     "in_3dbag": false,
     "archived": false
   },
@@ -32,6 +34,7 @@
     "image": "assets/images/labs/example-lab.jpg",
     "authors": ["3DBAG team"],
     "contact": "info@3dbag.nl",
+    "license": "CC-BY 4.0",
     "in_3dbag": false,
     "archived": false
   },
@@ -44,6 +47,7 @@
     "image": "assets/images/labs/example-lab.jpg",
     "authors": ["3DBAG team"],
     "contact": "info@3dbag.nl",
+    "license": "CC-BY 4.0",
     "in_3dbag": false,
     "archived": false
   }

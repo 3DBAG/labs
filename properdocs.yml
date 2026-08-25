@@ -1,5 +1,6 @@
 site_name: 3DBAG Labs
 site_description: Experimental content, demos, proof of concepts for the 3DBAG.
+copyright: 'Copyright © 2026 - 3DBAG by the 3D geoinformation research group and 3DGI. Licensed under CC BY 4.0.'
 docs_dir: docs
 site_dir: site
 

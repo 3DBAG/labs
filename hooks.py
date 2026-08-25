@@ -131,6 +131,7 @@ def _cards_markdown(cards: list[dict[str, Any]]) -> str:
                 '<div class="lab-card__meta-row">',
                 f'<span><strong>Authors:</strong> {authors}</span>',
                 f'<span><strong>Contact:</strong> <a href="mailto:{esc(card["contact"])}">{esc(card["contact"])}</a></span>',
+                f'<span><strong>License:</strong> {esc(card["license"])}</span>',
                 f'<span><strong>Date added:</strong> {esc(card["date_added"])}</span>',
                 '</div>',
                 '<div class="lab-card__status-row">',
