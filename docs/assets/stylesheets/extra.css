@@ -1,18 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
 
-.md-header .logo-text, .md-sidebar .logo-text {
-  font-family: Barlow, sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
+.md-typeset h1 {
+  color: var(--md-default-fg-color--light);
+  font-size: 2em;
+  line-height: 1.3;
+  margin: 0 0 1.25em;
 }
 
-.md-header .logo-text--labs, .md-sidebar .logo-text--labs {
+.md-typeset h1,
+.md-typeset h2 {
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+.md-typeset h2 {
+  font-size: 1.5625em;
+  line-height: 1.4;
+  margin: 1.6em 0 0.64em;
+}
+
+.md-typeset h3 {
+  font-size: 1.25em;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+  margin: 1.6em 0 0.8em;
+}
+
+.labs-page-title {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.4;
+  margin: 0 0 1.25em;
+}
+
+.md-header .logo-text, .md-sidebar .logo-text,
+.labs-page-title__name,
+.labs-page-heading__name {
+  font-family: Barlow, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.md-header .logo-text--labs, .md-sidebar .logo-text--labs,
+.labs-page-title__labs,
+.labs-page-heading__labs {
   font-family: Caveat, cursive;
   font-size: 1rem;
   font-weight: 700;
   margin-left: 0.2em;
   margin-right: 0.5em;
+}
+
+.labs-page-title__inline {
+  white-space: nowrap;
+}
+
+.labs-page-heading__name {
+  font-size: 2.25rem;
+}
+
+.labs-page-heading__labs {
+  font-size: 2.5rem;
+}
+
+.md-footer__title {
+  font-size: 0.9rem;
+}
+
+.md-footer__direction {
+  font-size: 0.64rem;
 }
 
 .md-header__title {
