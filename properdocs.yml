@@ -1,0 +1,20 @@
+site_name: 3DBAG Labs
+site_description: Tools, experiments, and applications built with the 3DBAG.
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: materialx
+
+hooks:
+  - hooks.py
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+nav:
+  - 3DBAG Labs: index.md

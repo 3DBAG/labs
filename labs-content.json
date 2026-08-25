@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "title": "Example 3DBAG lab",
+    "description": "A starting point for sharing tools, experiments, and applications built with the 3DBAG.",
+    "link": "https://3dbag.nl/",
+    "image": "assets/images/labs/example-lab.svg",
+    "authors": ["3DBAG team"],
+    "contact": "info@3dbag.nl",
+    "in_3dbag": false,
+    "archived": false
+  }
+]
