@@ -5,7 +5,7 @@
     "title": "Underpasses",
     "description": "An experimental 3DBAG viewer of automated nationwide modelling of underpasses and building overhangs, with Amsterdam as the test area. It detects suspended building parts by comparing BAG and BGT geometry, estimates their clearance height from available streetview Lidar data or heuristics, and incorporates the resulting openings into the 3D building model.",
     "link": "https://underpasses.dev.3dbag.nl/",
-    "image": "assets/images/labs/underpasses.jpg",
+    "image": "assets/images/labs/underpasses-card.png",
     "authors": ["3DBAG team"],
     "contact": "info@3dbag.nl",
     "license": "CC-BY 4.0",
